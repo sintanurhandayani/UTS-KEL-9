@@ -1,0 +1,303 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Tiga Profil, Tiga Keahlian</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <div class="brand">
+        <h1 class="site-title">Tiga Profil, Tiga Keahlian</h1>
+        <p class="site-subtitle">Pendidikan, pengalaman, dan pencapaian dari masing-masing kami.</p>
+      </div>
+
+      <nav class="nav" id="mainNav">
+        <button class="nav-toggle" id="navToggle" aria-label="Buka menu">
+          <span class="hamburger"></span>
+        </button>
+        <ul class="nav-list" id="navList">
+          <li><a href="#" data-target="home" class="nav-link">Home</a></li>
+          <li><a href="#" data-target="profile-1" class="nav-link">Profil 1</a></li>
+          <li><a href="#" data-target="profile-2" class="nav-link">Profil 2</a></li>
+          <li><a href="#" data-target="profile-3" class="nav-link">Profil 3</a></li>
+          <li>
+            <button id="themeToggle" class="btn btn-ghost" aria-label="Toggle tema">Mode</button>
+          </li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container" id="home">
+    <!-- Selector cards -->
+    <section class="cards" id="selector">
+      <article class="card profile-card" data-profile="1">
+        <div class="card-media">
+          <img src="./foto1.jpg" alt="Foto Profil 1" data-initials="SN" />
+        </div>
+        <div class="card-body">
+          <h2 class="card-name">Sinta Nurhandayani</h2>
+          <p class="card-role">Manajemen Pendidikan</p>
+          <p class="card-summary">
+            Mahasiswa Manajemen Pendidikan yang aktif dalam kepanitiaan, pengabdian masyarakat, dan berbagai kegiatan selama perkuliahan. Memiliki kemampuan komunikasi, adaptasi, dan tanggung jawab serta mampu berinteraksi dan berkoordinasi dengan berbagai pihak.
+          </p>
+          <div class="card-actions">
+            <button class="btn btn-primary view-profile" data-target="profile-1">Lihat Profil</button>
+          </div>
+        </div>
+      </article>
+
+      <article class="card profile-card" data-profile="2">
+        <div class="card-media">
+          <img src="./foto2.jpg" alt="Foto Profil 2" data-initials="RK" />
+        </div>
+        <div class="card-body">
+          <h2 class="card-name">Raya Kamila Cb Winata</h2>
+          <p class="card-role">Pelajar / Peserta aktif organisasi sekolah</p>
+          <p class="card-summary">
+            Riwayat hidup singkat yang mencakup pendidikan dasar hingga jenjang saat ini dan berbagai pengalaman organisasi sekolah serta partisipasi lomba.
+          </p>
+          <div class="card-actions">
+            <button class="btn btn-primary view-profile" data-target="profile-2">Lihat Profil</button>
+          </div>
+        </div>
+      </article>
+
+      <article class="card profile-card" data-profile="3">
+        <div class="card-media">
+          <img src="./foto3.jpg" alt="Foto Profil 3" data-initials="AH" />
+        </div>
+        <div class="card-body">
+          <h2 class="card-name">Adib Heliansyah</h2>
+          <p class="card-role">Manajemen Pendidikan (mahasiswa)</p>
+          <p class="card-summary">
+            Saya memiliki pengalaman 3 tahun berorganisasi yang bagus dan memiliki kemampuan komunikasi, kepemimpinan, serta manajemen tim. Berpengalaman dalam berbagai kegiatan organisasi dan acara kampus.
+          </p>
+          <div class="card-actions">
+            <button class="btn btn-primary view-profile" data-target="profile-3">Lihat Profil</button>
+          </div>
+        </div>
+      </article>
+    </section>
+  </main>
+
+  <!-- Profile 1 -->
+  <section id="profile-1" class="profile-section hidden" aria-hidden="true" data-profile="1">
+    <div class="container profile-header">
+      <button class="btn btn-secondary back-home">Kembali ke Pilihan Profil</button>
+      <div class="profile-top">
+        <div class="profile-photo">
+          <img src="./foto1.jpg" alt="Foto Sinta Nurhandayani" data-initials="SN" />
+        </div>
+        <div class="profile-meta">
+          <h2 class="profile-name">Sinta Nurhandayani</h2>
+          <p class="profile-field">Manajemen Pendidikan</p>
+          <div class="contact-list">
+            <div><strong>Telepon:</strong> +62 823-1532-7613</div>
+            <div><strong>Email:</strong> sinnur4107@gmail.com</div>
+            <div><strong>Lokasi:</strong> Jakarta Selatan</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container profile-content">
+      <!-- Profil singkat -->
+      <section class="section about">
+        <h3>Tentang</h3>
+        <p>Mahasiswa Manajemen Pendidikan yang aktif dalam kepanitiaan, pengabdian masyarakat, dan berbagai kegiatan selama perkuliahan. Memiliki kemampuan komunikasi, adaptasi, dan tanggung jawab dalam menjalankan tugas, serta mampu berinteraksi dan berkoordinasi dengan berbagai pihak. Berkomitmen untuk terus mengembangkan keterampilan dan menambah pengalaman melalui berbagai kegiatan dan kesempatan yang tersedia.</p>
+      </section>
+
+      <!-- Pendidikan -->
+      <section class="section education">
+        <h3>Pendidikan</h3>
+        <ul class="timeline">
+          <li><span class="edu-year">2012 - 2013</span><span class="edu-item">RA Ar-Ridho</span></li>
+          <li><span class="edu-year">2013 - 2019</span><span class="edu-item">MIN 09 Jakarta</span></li>
+          <li><span class="edu-year">2019 - 2022</span><span class="edu-item">MTsN 32 Jakarta</span></li>
+          <li><span class="edu-year">2022 - 2025</span><span class="edu-item">MAN 22 Jakarta</span></li>
+          <li><span class="edu-year">2025 - Sekarang</span><span class="edu-item">UIN Syarif Hidayatullah</span></li>
+        </ul>
+      </section>
+
+      <!-- Pengalaman -->
+      <section class="section experience">
+        <h3>Pengalaman</h3>
+        <ul class="bullets">
+          <li>Anggota Aktif Ekstrakulikuler Saman — MTsN 32 Jakarta (2019 - 2020)</li>
+          <li>Anggota Aktif Ekstrakulikuler Basket — MTsN 32 Jakarta (2019 - 2020)</li>
+          <li>Anggota Aktif Ekstrakulikuler PMR — Bendahara, MAN 22 Jakarta Barat (2022 - 2024)</li>
+          <li>Lomba PMR Tingkat Regional — Pertolongan Pertama, UIN Syarif Hidayatullah (2022)</li>
+          <li>Staf Pelaksana Lomba PMR Tingkat Regional — Timekeeper, SMPN 215 Jakarta Barat (2023)</li>
+          <li>Staf Pelaksana Donor Darah — Divisi Humas, MAN 22 Jakarta Barat (2023)</li>
+          <li>MC Upacara Pembuka Kegiatan Donor Darah — MAN 22 Jakarta Barat (2023)</li>
+          <li>Juara 3 Lomba PMR Tingkat Provinsi — Tandu Putri, SMKN 17 Jakarta Barat (2023)</li>
+          <li>Juara 1 Lomba PMR Tingkat Provinsi — Tandu Putri, SMAN 79 Jakarta Selatan (2023)</li>
+          <li>Juara 1 Lomba PMR Tingkat Se-Jabodetabek — Tandu Putri, UPN Veteran Jakarta (2023)</li>
+          <li>Lomba PMR Tingkat Kota — Tandu Putri, Kantor Walikota Jakarta Barat (2024)</li>
+          <li>Pengabdian Masyarakat — Volunteer, Generasi Dewantara (2025)</li>
+          <li>Pengabdian Masyarakat — Volunteer, Naramuda Syahid (2026)</li>
+          <li>Staf Pelaksana Pelantikan dan Rapat Kerja HMPS Manajemen Pendidikan — Divisi PDD, UIN Syarif Hidayatullah (2026)</li>
+          <li>Staf Pelaksana PBAK Manajemen Pendidikan — Divisi Kesehatan, UIN Syarif Hidayatullah (2026)</li>
+        </ul>
+      </section>
+
+      <!-- Keterampilan -->
+      <section class="section skills">
+        <h3>Keterampilan</h3>
+        <div class="skill-badges">
+          <span class="badge">Mengoperasikan Microsoft Office</span>
+          <span class="badge">Public Speaking</span>
+          <span class="badge">Event Coordination</span>
+          <span class="badge">Manajemen Waktu</span>
+        </div>
+      </section>
+    </div>
+  </section>
+
+  <!-- Profile 2 -->
+  <section id="profile-2" class="profile-section hidden" aria-hidden="true" data-profile="2">
+    <div class="container profile-header">
+      <button class="btn btn-secondary back-home">Kembali ke Pilihan Profil</button>
+      <div class="profile-top">
+        <div class="profile-photo">
+          <img src="./foto2.jpg" alt="Foto Raya Kamila" data-initials="RK" />
+        </div>
+        <div class="profile-meta">
+          <h2 class="profile-name">Raya Kamila Cb Winata</h2>
+          <p class="profile-field">Pelajar / Partisipan Organisasi Sekolah</p>
+          <div class="contact-list">
+            <div><strong>Tempat, Tgl Lahir:</strong> Jakarta, 14 Juni 2006</div>
+            <div><strong>Telepon:</strong> 08888794599</div>
+            <div><strong>Email:</strong> rayacbwinata@gmail.com</div>
+            <div><strong>Alamat:</strong> Jln. Moh Aseni rt007/003</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container profile-content">
+      <section class="section personal-data">
+        <h3>Data Pribadi</h3>
+        <ul class="simple-list">
+          <li>Nama: Raya Kamila Cb Winata</li>
+          <li>Tempat, Tanggal Lahir: Jakarta, 14 Juni 2006</li>
+          <li>Jenis Kelamin: Perempuan</li>
+          <li>Agama: Islam</li>
+          <li>Alamat: Jln. Moh Aseni rt007/003</li>
+          <li>Nomor Telepon: 08888794599</li>
+          <li>Email: rayacbwinata@gmail.com</li>
+        </ul>
+      </section>
+
+      <section class="section education">
+        <h3>Riwayat Pendidikan</h3>
+        <ul class="timeline">
+          <li><span class="edu-year">2012 - 2013</span><span class="edu-item">TK Miftahul Mu'in</span></li>
+          <li><span class="edu-year">2013 - 2019</span><span class="edu-item">SDN 012 Pagi</span></li>
+          <li><span class="edu-year">2019 - 2022</span><span class="edu-item">MTsN 8 Jakarta Barat</span></li>
+          <li><span class="edu-year">2022 - 2025</span><span class="edu-item">MAN 12 Jakarta Barat</span></li>
+          <li><span class="edu-year">2025 - Sekarang</span><span class="edu-item">UIN Syarif Hidayatullah Jakarta</span></li>
+        </ul>
+      </section>
+
+      <section class="section organizations">
+        <h3>Pengalaman Organisasi</h3>
+        <ul class="bullets">
+          <li>Anggota aktif PMR SDN 012 Pagi</li>
+          <li>Anggota aktif DrumBand SDN 012 Pagi</li>
+          <li>Anggota aktif PMR MTsN 8 Jakarta Barat</li>
+          <li>Anggota aktif Pecak Silat MTsN 8 Jakarta Barat</li>
+          <li>Anggota aktif Volli — MAN 12 Jakarta</li>
+          <li>Anggota aktif Paskibra — MAN 12 Jakarta</li>
+          <li>Anggota aktif Hadroh — MAN 12 Jakarta</li>
+          <li>Anggota aktif Saman — MAN 12 Jakarta</li>
+        </ul>
+      </section>
+
+      <section class="section competitions">
+        <h3>Pengalaman Lomba</h3>
+        <ul class="bullets">
+          <li>Lomba Let's Play With Nyam Nyam</li>
+          <li>Lomba hadroh JMC</li>
+          <li>Lomba Mttq</li>
+          <li>Lomba Paskibra</li>
+        </ul>
+      </section>
+
+      <section class="section work">
+        <h3>Pengalaman Kerja</h3>
+        <p>Karyawan — Anscollection</p>
+      </section>
+    </div>
+  </section>
+
+  <!-- Profile 3 -->
+  <section id="profile-3" class="profile-section hidden" aria-hidden="true" data-profile="3">
+    <div class="container profile-header">
+      <button class="btn btn-secondary back-home">Kembali ke Pilihan Profil</button>
+      <div class="profile-top">
+        <div class="profile-photo">
+          <img src="./foto3.jpg" alt="Foto Adib Heliansyah" data-initials="AH" />
+        </div>
+        <div class="profile-meta">
+          <h2 class="profile-name">Adib Heliansyah</h2>
+          <p class="profile-field">Manajemen Pendidikan — Mahasiswa</p>
+          <div class="contact-list">
+            <div><strong>Telepon:</strong> +62 85715575603</div>
+            <div><strong>Email:</strong> adibheliansyah@gmail.com</div>
+            <div><strong>Alamat:</strong> Gunung putri Griya Bukit Jaya Blok B7 NO 15</div>
+            <div><strong>Negara:</strong> Indonesia</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container profile-content">
+      <section class="section about">
+        <h3>Profile</h3>
+        <p>
+          saya memiliki pengalaman 3 tahun berorganisasi yang bagus dan memiliki banyak pengalaman yang mampu mengimprove diri saya sebagai komunikator yang baik dan ramah. Saya berpengalaman dengan keahlian dalam kepemimpinan dan manajemen tim.
+        </p>
+      </section>
+
+      <section class="section experience">
+        <h3>Experience / Pengalaman Organisasi</h3>
+        <ul class="bullets">
+          <li>Feb 2023 - Feb 2024: Terlibat dalam kegiatan dan pengabdian di Pondok Pesantren Modern Fathan Mubina (peran operasional & pelatihan siswa)</li>
+          <li>Feb 2024 - Feb 2025: Berperan dalam kebersihan, pendidikan, dan organisasi siswa (OSIS) di sekolah terkait</li>
+          <li>Menjabat di beberapa posisi kepanitiaan seperti divisi dekorasi, divisi acara, ketua panitia, serta anggota pelaksana kegiatan kampus dan lomba.</li>
+          <li>Terlibat dalam pengorganisasian event fakultas dan pelatihan di kampus selama 2023–2026.</li>
+        </ul>
+      </section>
+
+      <section class="section education">
+        <h3>Education</h3>
+        <ul class="timeline">
+          <li><span class="edu-year">2025 - Sekarang</span><span class="edu-item">Sarjana, Manajemen Pendidikan | UIN Syarif Hidayatullah</span></li>
+        </ul>
+      </section>
+
+      <section class="section contact-langs">
+        <h3>Contact & Languages</h3>
+        <ul class="simple-list">
+          <li>Telepon: +62 85715575603</li>
+          <li>Email: adibheliansyah@gmail.com</li>
+        </ul>
+        <h4>Languages</h4>
+        <ul class="bullets">
+          <li>English (menengah)</li>
+          <li>Arabic (menengah atas)</li>
+        </ul>
+      </section>
+    </div>
+  </section>
+
+  <button id="backToTop" class="back-to-top" title="Kembali ke atas">↑</button>
+
+  <script src="script.js"></script>
+</body>
+</html>
