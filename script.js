@@ -1,178 +1,183 @@
-// Script for navigation, theming, profile switching, image fallback, smooth scrolling, hamburger, back-to-top
+(() => {
+  const $ = (s, r = document) => r.querySelector(s);
+  const $$ = (s, r = document) => [...r.querySelectorAll(s)];
 
-(function(){
-  // Helpers
-  const $ = (sel, ctx=document) => ctx.querySelector(sel);
-  const $$ = (sel, ctx=document) => Array.from(ctx.querySelectorAll(sel));
-
-  // Elements
-  const navToggle = $('#navToggle');
+  const home = $('#home');
+  const profiles = $$('.profile-section');
+  const views = [home, ...profiles];
   const navList = $('#navList');
-  const navLinks = $$('.nav-link');
-  const viewBtns = $$('.view-profile');
-  const backButtons = $$('.back-home');
-  const homeSection = $('#home');
-  const profileSections = $$('.profile-section');
-  const backToTop = $('#backToTop');
-  const themeToggle = $('#themeToggle');
+  const navToggle = $('#navToggle');
+  const toTop = $('#backToTop');
 
-  // Initialize theme from localStorage
-  const storedTheme = localStorage.getItem('theme') || 'light';
-  setTheme(storedTheme);
+  /* ---------- Progress bar ---------- */
+  const progress = document.createElement('div');
+  progress.id = 'progress';
+  document.body.prepend(progress);
 
-  // Nav toggle (mobile)
+  /* ---------- Foto gagal dimuat: tampilkan inisial ---------- */
+  function fallback(img) {
+    if (img.dataset.failed) return;
+    img.dataset.failed = '1';
+    img.style.display = 'none';
+    const box = document.createElement('div');
+    box.className = 'initials-fallback';
+    box.textContent = img.dataset.initials || '';
+    img.parentElement.appendChild(box);
+  }
+  $$('img[data-initials]').forEach(img => {
+    img.addEventListener('error', () => fallback(img));
+    if (img.complete && img.naturalWidth === 0) fallback(img);
+  });
+
+  /* ---------- Tema ---------- */
+  const themeBtn = $('#themeToggle');
+  function setTheme(t) {
+    document.documentElement.setAttribute('data-theme', t);
+    themeBtn.textContent = t === 'dark' ? 'Mode Terang' : 'Mode Gelap';
+    try { localStorage.setItem('theme', t); } catch (e) {}
+  }
+  let saved = null;
+  try { saved = localStorage.getItem('theme'); } catch (e) {}
+  setTheme(saved || (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'));
+  themeBtn.addEventListener('click', () => {
+    setTheme(document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark');
+  });
+
+  /* ---------- Menu mobile ---------- */
   navToggle.addEventListener('click', () => {
-    navList.classList.toggle('open');
+    const open = navList.classList.toggle('open');
+    navToggle.setAttribute('aria-expanded', String(open));
   });
 
-  // Close mobile nav when clicking a nav link and navigate
-  navLinks.forEach(link => {
-    link.addEventListener('click', (e) => {
-      e.preventDefault();
-      const target = link.dataset.target;
-      if(navList.classList.contains('open')) navList.classList.remove('open');
-      if(target === 'home') {
-        showHome();
-      } else {
-        showProfile(target);
-      }
-    });
-  });
-
-  // View profile buttons on cards
-  viewBtns.forEach(btn => {
-    btn.addEventListener('click', () => {
-      const target = btn.dataset.target;
-      showProfile(target);
-      // scroll to top of profile smoothly
-      document.getElementById(target).scrollIntoView({behavior:'smooth'});
-    });
-  });
-
-  // Back buttons
-  backButtons.forEach(btn => btn.addEventListener('click', showHome));
-
-  // Show home
-  function showHome(){
-    homeSection.classList.remove('hidden');
-    profileSections.forEach(s => {
-      s.classList.add('hidden');
-      s.setAttribute('aria-hidden','true');
-    });
-    window.scrollTo({top:0, behavior:'smooth'});
+  /* ---------- Hitung angka statistik ---------- */
+  function countUp(el, to) {
+    const dur = 1100, t0 = performance.now();
+    const step = now => {
+      const p = Math.min((now - t0) / dur, 1);
+      el.textContent = Math.round(to * (1 - Math.pow(1 - p, 3)));
+      if (p < 1) requestAnimationFrame(step);
+    };
+    requestAnimationFrame(step);
   }
 
-  // Show profile container by id (profile-1, profile-2, profile-3)
-  function showProfile(id){
-    const target = document.getElementById(id);
-    if(!target) return;
-    homeSection.classList.add('hidden');
-    profileSections.forEach(s => {
-      if(s.id === id){
-        s.classList.remove('hidden');
-        s.setAttribute('aria-hidden','false');
-      } else {
-        s.classList.add('hidden');
-        s.setAttribute('aria-hidden','true');
-      }
+  /* ---------- Siapkan tiap halaman profil ---------- */
+  profiles.forEach(sec => {
+    // Statistik
+    const exp = $$('.experience li, .organizations li', sec).length + $$('.work p', sec).length;
+    const wins = $$('li', sec).filter(li => /^Juara/i.test(li.textContent.trim())).length;
+    const comps = $$('.competitions li', sec).length;
+    const edu = $$('.education .timeline li', sec).length;
+    const items = [
+      ['Pengalaman', exp],
+      wins ? ['Juara', wins] : ['Lomba', comps],
+      ['Jenjang pendidikan', edu]
+    ].filter(i => i[1] > 0);
+    const stats = document.createElement('div');
+    stats.className = 'stats';
+    items.forEach(([label, n]) => {
+      const d = document.createElement('div');
+      d.className = 'stat';
+      d.innerHTML = '<b data-to="' + n + '">0</b><span>' + label + '</span>';
+      stats.appendChild(d);
     });
-    // Ensure top visible
-    target.scrollIntoView({behavior:'smooth'});
-  }
+    $('.profile-meta', sec).appendChild(stats);
 
-  // Theme toggle
-  themeToggle.addEventListener('click', () => {
-    const current = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'light';
-    const next = current === 'dark' ? 'light' : 'dark';
-    setTheme(next);
-    localStorage.setItem('theme', next);
-  });
-
-  function setTheme(mode){
-    if(mode === 'dark'){
-      document.documentElement.setAttribute('data-theme','dark');
-      themeToggle.textContent = 'Dark';
-    } else {
-      document.documentElement.removeAttribute('data-theme');
-      themeToggle.textContent = 'Light';
-    }
-  }
-
-  // Smooth scroll for internal nav anchors (if used)
-  document.addEventListener('click', (e) => {
-    const a = e.target.closest('a[href^="#"]');
-    if(a){
-      e.preventDefault();
-      const id = a.getAttribute('href').slice(1);
-      const el = document.getElementById(id);
-      if(el) el.scrollIntoView({behavior:'smooth'});
-    }
-  });
-
-  // Back to top visibility
-  window.addEventListener('scroll', () => {
-    if(window.scrollY > 300){
-      backToTop.style.display = 'block';
-    } else {
-      backToTop.style.display = 'none';
-    }
-  });
-  backToTop.addEventListener('click', () => window.scrollTo({top:0, behavior:'smooth'}));
-
-  // Image fallback: if image not found, replace with SVG data URL with initials
-  function setInitialFallback(img){
-    if(!img) return;
-    img.addEventListener('error', () => {
-      const initials = img.dataset.initials || getInitialsFromAlt(img.alt || '');
-      const bg = getComputedStyle(document.documentElement).getPropertyValue('--accent-surface').trim() || '#F3EDE5';
-      const fg = getComputedStyle(document.documentElement).getPropertyValue('--text').trim() || '#3E2723';
-      const size = 240;
-      const fontSize = Math.floor(size * 0.36);
-      const svg = `<svg xmlns='http://www.w3.org/2000/svg' width='${size}' height='${size}'>
-        <rect width='100%' height='100%' fill='${bg}' rx='999'/>
-        <text x='50%' y='50%' dominant-baseline='central' text-anchor='middle' font-family='Arial, Verdana, sans-serif' font-size='${fontSize}' fill='${fg}' font-weight='700'>${escapeHtml(initials)}</text>
-      </svg>`;
-      const uri = 'data:image/svg+xml;utf8,' + encodeURIComponent(svg);
-      img.src = uri;
+    // Tandai juara
+    $$('.bullets li', sec).forEach(li => {
+      if (/^Juara/i.test(li.textContent.trim())) li.classList.add('win');
     });
-    // If already failed previously (cached), ensure onerror triggered:
-    if(!img.complete){
-      // nothing
+
+    // Daftar panjang bisa dilipat
+    $$('.bullets', sec).forEach(ul => {
+      const lis = $$('li', ul);
+      if (lis.length <= 6) return;
+      ul.classList.add('collapsed');
+      const b = document.createElement('button');
+      b.className = 'btn toggle-list';
+      b.textContent = 'Tampilkan semua (' + lis.length + ')';
+      b.addEventListener('click', () => {
+        const c = ul.classList.toggle('collapsed');
+        b.textContent = c ? 'Tampilkan semua (' + lis.length + ')' : 'Ringkas daftar';
+      });
+      ul.after(b);
+    });
+
+    // Pindah ke profil lain
+    const others = profiles.filter(p => p !== sec);
+    const sw = document.createElement('div');
+    sw.className = 'section switcher';
+    sw.innerHTML = '<h3 class="switcher-title">Lihat profil lainnya</h3>';
+    others.forEach(o => {
+      const btn = document.createElement('button');
+      btn.className = 'switch-btn';
+      btn.dataset.target = o.id;
+      btn.style.background = getComputedStyle(o).getPropertyValue('--accent') || '#3b5bdb';
+      btn.innerHTML = $('.profile-name', o).textContent + '<small>' + $('.profile-field', o).textContent + '</small>';
+      btn.addEventListener('click', () => show(o.id));
+      sw.appendChild(btn);
+    });
+    $('.profile-content', sec).appendChild(sw);
+  });
+
+  // Warna tombol pindah profil ambil dari variabel (jaga-jaga getComputedStyle kosong)
+  const accents = { 'profile-1': '#d6336c', 'profile-2': '#0c9f8e', 'profile-3': '#3b5bdb' };
+  $$('.switch-btn').forEach(b => { b.style.background = accents[b.dataset.target]; });
+
+  /* ---------- Reveal saat scroll ---------- */
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+    });
+  }, { threshold: .12 });
+  $$('.section').forEach(s => io.observe(s));
+
+  /* ---------- Pindah tampilan ---------- */
+  function show(id, updateHash = true) {
+    const target = views.find(v => v.id === id) || home;
+    views.forEach(v => {
+      const on = v === target;
+      v.classList.toggle('hidden', !on);
+      v.setAttribute('aria-hidden', String(!on));
+    });
+    $$('.nav-list .nav-link').forEach(a => a.classList.toggle('active', a.dataset.target === target.id));
+    navList.classList.remove('open');
+    navToggle.setAttribute('aria-expanded', 'false');
+    if (updateHash) history.replaceState(null, '', '#' + target.id);
+    window.scrollTo({ top: 0, behavior: 'instant' in window ? 'instant' : 'auto' });
+
+    if (target !== home) {
+      $$('.stat b', target).forEach(b => countUp(b, +b.dataset.to));
     }
   }
 
-  function escapeHtml(s){ return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
-  function getInitialsFromAlt(text){
-    const parts = text.trim().split(/\s+/).filter(Boolean);
-    if(parts.length === 0) return '';
-    if(parts.length === 1) return parts[0].slice(0,2).toUpperCase();
-    return (parts[0][0] + parts[1][0]).toUpperCase();
+  $$('.nav-link').forEach(a => a.addEventListener('click', e => { e.preventDefault(); show(a.dataset.target); }));
+  $$('.view-profile').forEach(b => b.addEventListener('click', e => { e.stopPropagation(); show(b.dataset.target); }));
+  $$('.back-home').forEach(b => b.addEventListener('click', () => show('home')));
+
+  /* ---------- Panel kartu: ketuk untuk buka (layar sentuh) ---------- */
+  const cards = $$('.profile-card');
+  cards.forEach(c => {
+    c.addEventListener('click', () => {
+      const wasOpen = c.classList.contains('is-open');
+      cards.forEach(x => x.classList.remove('is-open'));
+      if (!wasOpen) c.classList.add('is-open');
+    });
+    c.addEventListener('keydown', e => {
+      if (e.key === 'Enter') show('profile-' + c.dataset.profile);
+    });
+  });
+
+  /* ---------- Scroll: progress + tombol ke atas ---------- */
+  function onScroll() {
+    const h = document.documentElement.scrollHeight - innerHeight;
+    progress.style.width = (h > 0 ? (scrollY / h) * 100 : 0) + '%';
+    toTop.classList.toggle('show', scrollY > 400);
   }
+  addEventListener('scroll', onScroll, { passive: true });
+  toTop.addEventListener('click', () => scrollTo({ top: 0, behavior: 'smooth' }));
 
-  // Attach to all profile images
-  $$('img[data-initials]').forEach(setInitialFallback);
-
-  // Ensure profile sections that are empty are hidden (defensive)
-  profileSections.forEach(section => {
-    const hasContent = section.querySelector('.profile-content') && section.querySelector('.profile-content').children.length > 0;
-    if(!hasContent){
-      section.classList.add('hidden');
-    }
-  });
-
-  // Keyboard accessibility: Esc closes mobile nav
-  document.addEventListener('keydown', (e) => {
-    if(e.key === 'Escape' && navList.classList.contains('open')){
-      navList.classList.remove('open');
-    }
-  });
-
-  // Initial state: show home
-  showHome();
-
-  // Ensure no uncaught errors: wrap common event listener callbacks
-  window.addEventListener('error', (ev) => {
-    // swallow to avoid console noise for users; optionally could log
-    // console.warn('Captured error:', ev.message);
-  });
+  /* ---------- Hash dan tombol back browser ---------- */
+  addEventListener('hashchange', () => show(location.hash.slice(1), false));
+  show(location.hash.slice(1) || 'home', false);
+  onScroll();
 })();
